@@ -81,7 +81,7 @@ with open("formatted_data.csv", "w") as f:
     f.write(data_str)
 
 # extra data for another, smaller CSV file
-label_data_str = "label,Size\n"
+label_data_str = "Label,Size\n"
 
 for key, value in websites.items():
     label_data_str = label_data_str + key + "," + str(value) + "\n"
