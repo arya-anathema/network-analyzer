@@ -9,6 +9,9 @@ data_str = "Packet_Count,Total_Length,Average_Packet_Interval,Maximum_Packet_Int
 
 # loop through each website in data directory
 for subfolder in os.listdir(data_dir):
+    if "DS_Store" in subfolder:
+        continue
+
     subfolder_path = os.path.join(data_dir, subfolder)
 
     websites[subfolder] = 0
@@ -72,7 +75,7 @@ for subfolder in os.listdir(data_dir):
                 str(max_length),
                 str(min_length),
                 str(most_common_packet_length),
-                str(subfolder)
+                str(subfolder.lower())
             ]
             data_str = data_str + ",".join(data) + "\n"
 
