@@ -4,7 +4,8 @@ import os
 data_dir = "data"
 websites = {}
 
-data_str = "Packet_Count,Total_Length,Average_Packet_Interval,Maximum_Packet_Interval,Minimum_Packet_Interval,Average_Packet_Length,Maximum_Packet_Length,Minimum_Packet_Length,Most_Common_Packet_Length,Label"
+# string to write to CSV file
+data_str = "Packet_Count,Total_Length,Average_Packet_Interval,Maximum_Packet_Interval,Minimum_Packet_Interval,Average_Packet_Length,Maximum_Packet_Length,Minimum_Packet_Length,Most_Common_Packet_Length,Label\n"
 
 # loop through each website in data directory
 for subfolder in os.listdir(data_dir):
@@ -17,9 +18,7 @@ for subfolder in os.listdir(data_dir):
         file_path = os.path.join(subfolder_path, filename)
         websites[subfolder] += 1
 
-        # print(f"subfolder name: {subfolder}, file name: {filename}")
-
-        # open CVS file
+        # open CSV file
         with open(file_path, 'r') as file:
             # toss out the header line
             file.readline()
@@ -61,6 +60,8 @@ for subfolder in os.listdir(data_dir):
             average_packet_interval = total_interval / packet_count
             average_packet_length = total_length / packet_count
             most_common_packet_length = max(set(packet_lengths), key=packet_lengths.count)
+
+            # compile data into list
             data = [
                 str(packet_count),
                 str(total_length),
@@ -73,12 +74,17 @@ for subfolder in os.listdir(data_dir):
                 str(most_common_packet_length),
                 str(subfolder)
             ]
-
             data_str = data_str + ",".join(data) + "\n"
 
+# write all the data to a new CSV file
 with open("formatted_data.csv", "w") as f:
     f.write(data_str)
 
+# extra data for another, smaller CSV file
+label_data_str = "label,Size\n"
 
 for key, value in websites.items():
-    print(f"{key}: {value}")
+    label_data_str = label_data_str + key + "," + str(value) + "\n"
+
+with open("website_data_counts.csv", "w") as f:
+    f.write(label_data_str)
