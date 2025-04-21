@@ -18,6 +18,8 @@ for subfolder in os.listdir(data_dir):
 
     # loop through each CSV file in the website folder
     for filename in os.listdir(subfolder_path):
+        if "DS_Store" in filename:
+            continue
         file_path = os.path.join(subfolder_path, filename)
         websites[subfolder] += 1
 
