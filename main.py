@@ -4,6 +4,8 @@ import os
 data_dir = "data"
 websites = {}
 
+data_str = "Packet_Count,Total_Length,Average_Packet_Interval,Maximum_Packet_Interval,Minimum_Packet_Interval,Average_Packet_Length,Maximum_Packet_Length,Minimum_Packet_Length,Most_Common_Packet_Length,Label"
+
 # loop through each website in data directory
 for subfolder in os.listdir(data_dir):
     subfolder_path = os.path.join(data_dir, subfolder)
@@ -56,17 +58,27 @@ for subfolder in os.listdir(data_dir):
                 packet_lengths.append(length)
                 previous_interval = interval
 
-            print(f"total packet count: {packet_count}")
-            print(f"total packet length: {total_length}")
-            print(f"average packet interval: {total_interval / packet_count}")
-            print(f"max packet interval: {max_interval}")
-            print(f"min packet interval: {min_interval}")
-            print(f"average packet length: {total_length / packet_count}")
-            print(f"max packet length: {max_length}")
-            print(f"min packet length: {min_length}")
-            print(f"most common packet length: {max(set(packet_lengths), key=packet_lengths.count)}")
-            print(f"label: {subfolder}")
-            print()
+            average_packet_interval = total_interval / packet_count
+            average_packet_length = total_length / packet_count
+            most_common_packet_length = max(set(packet_lengths), key=packet_lengths.count)
+            data = [
+                str(packet_count),
+                str(total_length),
+                str(average_packet_interval),
+                str(max_interval),
+                str(min_interval),
+                str(average_packet_length),
+                str(max_length),
+                str(min_length),
+                str(most_common_packet_length),
+                str(subfolder)
+            ]
+
+            data_str = data_str + ",".join(data) + "\n"
+
+with open("formatted_data.csv", "w") as f:
+    f.write(data_str)
+
 
 for key, value in websites.items():
     print(f"{key}: {value}")
