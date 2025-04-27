@@ -9,6 +9,8 @@ data_str = "Packet_Count,Total_Length,Average_Packet_Interval,Maximum_Packet_Int
 
 # loop through each website in data directory
 for subfolder in os.listdir(data_dir):
+
+    # filter out MacOS-generated files
     if "DS_Store" in subfolder:
         continue
 
@@ -18,6 +20,8 @@ for subfolder in os.listdir(data_dir):
 
     # loop through each CSV file in the website folder
     for filename in os.listdir(subfolder_path):
+
+        # filter out MacOS-generated files
         if "DS_Store" in filename:
             continue
         file_path = os.path.join(subfolder_path, filename)
